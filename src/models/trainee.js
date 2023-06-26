@@ -15,6 +15,15 @@ module.exports = (sequelize, DataTypes) => {
   }
   Trainee.init({
     name: DataTypes.STRING,
+    email: DataTypes.STRING,
+    rg: DataTypes.STRING,
+    cpf: DataTypes.STRING,
+    primary_phone_contact: DataTypes.STRING,
+    second_phone_contact: DataTypes.STRING,
+    date_birth: DataTypes.DATE,
+    father_name: DataTypes.STRING,
+    mother_name: DataTypes.STRING,
+    have_special_needs: DataTypes.BOOLEAN,
     create_at: DataTypes.DATE,
     updated_at: DataTypes.DATE
   }, {
