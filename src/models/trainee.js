@@ -1,34 +1,53 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
-module.exports = (sequelize, DataTypes) => {
-  class Trainee extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
-      // define association here
+const { STRING, DATE, BOOLEAN } = require('sequelize');
+const { connection } = require('../database/connection');
+
+const Trainee = connection.define("trainee", {
+  name: STRING,
+  email: {
+    validate: {
+      isEmail: {
+        msg: "O campo enviado deve ser um e-mail."
+      }
     }
-  }
-  Trainee.init({
-    name: DataTypes.STRING,
-    email: DataTypes.STRING,
-    rg: DataTypes.STRING,
-    cpf: DataTypes.STRING,
-    primary_phone_contact: DataTypes.STRING,
-    second_phone_contact: DataTypes.STRING,
-    date_birth: DataTypes.DATE,
-    father_name: DataTypes.STRING,
-    mother_name: DataTypes.STRING,
-    have_special_needs: DataTypes.BOOLEAN,
-    create_at: DataTypes.DATE,
-    updated_at: DataTypes.DATE
-  }, {
-    sequelize,
-    modelName: 'Trainee',
-  });
-  return Trainee;
-};
+  },
+
+  rg: {
+    type: STRING,
+    validate: {
+      len: {
+        args: [7, 20],
+        msg: "O Rg deve ter no mínimo 7 dígitos"
+      }
+    },
+    unique: {
+      msg: "Este campo já está na aplicação"
+    }
+  },
+  cpf: {
+    type: STRING,
+    validate: {
+      len: {
+        args: [11, 11],
+        msg: "Este campo deve ter exatamente 11 caracteres."
+      }
+    },
+    unique: {
+      msg: "Este campo já está na aplicação"
+    }
+  },
+  primaryPhoneContact: STRING,
+  secondaryPhoneContact: {
+    type: STRING,
+    allowNull: true
+  },
+  dateBirth: DATE,
+  fatherName: STRING,
+  motherName: STRING,
+  haveSpecialNeeds: BOOLEAN,
+  createdAt: DATE,
+  updatedAt: DATE,
+}, {underscored: true, paranoid: true})
+
+module.exports = {
+  Trainee
+}
