@@ -1,0 +1,25 @@
+name: Build CI
+
+on:
+  push:
+    branches:
+      - main  # Substitua "main" pelo nome da sua branch principal
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # Sistema operacional para execução do build
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2  # Ação para fazer o checkout do código
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v2  # Ação para configurar o ambiente Node.js
+      with:
+        node-version: '14'  # Versão do Node.js a ser usada
+
+    - name: Install dependencies
+      run: npm install  # Instalação das dependências do projeto
+
+    - name: Build project
+      run: npm run build  # Comando de build, ajuste de acordo com seu projeto
